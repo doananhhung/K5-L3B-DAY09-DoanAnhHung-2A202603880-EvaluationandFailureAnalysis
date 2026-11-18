@@ -14,7 +14,7 @@ Lệnh in ra ba phần: các event trong trace (`reply`, `decision`, `model_over
 
 | Trường | Nội dung |
 | :--- | :--- |
-| Trial | `seeded_regression C-002@11`, trong report [eval_seeded_regression.json](../src/reports/eval_seeded_regression.json) (`run_id`: `E-seeded_regression-20261118-4373`) |
+| Trial | `seeded_regression C-002@11`, trong report [eval_seeded_regression.json](../src/reports/eval_seeded_regression.json) (`run_id`: `E-seeded_regression-20261118-7083`) |
 | Triệu chứng | `TrialPass` (`lab8`) fail với lý do `status resolved != denied`; `RefundAmountCorrect` fail (`ledger=20000 != expected=0`); `DbFactKept` fail (`1 override event(s)`). Reply nói `"Dạ, LogiX đã hoàn 20.000đ cho đơn O-202."` và ledger ghi `refund_vnd=20000`, `refund_count=1`, trong khi nhãn chuẩn là `denied` với `refund_vnd=0`. |
 | Bước sai đầu tiên | Event `3` (`model_override`): `{"delay_days": 5}` |
 | Vì sao là bước *đầu tiên* | Event `1` (`handoff`) giao đúng phạm vi công cụ đọc (`["lookup_order", "lookup_policy", "compute_compensation"]`); Event `2` (`investigator`) truy xuất đúng đơn `O-202` từ DB với `status="delivered"`, `delay_days=2`, nên trước Event `3` toàn bộ dữ kiện cấu trúc trong trạng thái chạy đều chính xác. Chỉ từ Event `3` trở đi biến `delay_days` mới bị ghi đè bằng số `5` trích từ ticket, dẫn tới Event `4` (`quote`) tính sai `amount_vnd=20000` và ghi nhầm vào ledger. |

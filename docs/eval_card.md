@@ -3,10 +3,10 @@
 Card này đi kèm mỗi báo cáo và được dùng lại ở Day 10.
 
 - **Run ID / eval set SHA:**
-  - Baseline v1: `E-swarm-20261118-4373` · eval set v1 SHA `437320be5812`
-  - Fixed v1: `E-fixed-20261118-4373` · Seeded regression v1: `E-seeded_regression-20261118-4373`
-  - Baseline v2: `E-swarm-20261118-78dc` · eval set v2 SHA `78dccce75e9d`
-- **Phiên bản:** code base commit `9e1549a` (nhánh làm bài `starter/d09`) · eval set `v1` (`437320be5812`) / `v2` (`78dccce75e9d`) · `metric_spec` `1.0` / `2.0` · seeds `[11, 22, 33, 44, 55]`
+  - Baseline v1: `E-swarm-20261118-7083` · eval set v1 SHA `7083c788486f`
+  - Fixed v1: `E-fixed-20261118-7083` · Seeded regression v1: `E-seeded_regression-20261118-7083`
+  - Baseline v2: `E-swarm-20261118-938a` · eval set v2 SHA `938a3454f46c`
+- **Phiên bản:** code base commit `9e1549a` (nhánh làm bài `starter/d09`) · eval set `v1` (`7083c788486f`) / `v2` (`938a3454f46c`) · `metric_spec` `1.0` / `2.0` · seeds `[11, 22, 33, 44, 55]`
 - **Eval set:**
   - `v1`: `14` item × `5` seed (`70` trials), nguồn `lab8_public` ([eval_set_v1.jsonl](../src/data/eval/eval_set_v1.jsonl)); nhãn tách riêng tại [labels_v1.json](../src/data/eval/labels_v1.json).
   - `v2`: `28` item × `5` seed (`140` trials), gồm `14` item v1 + `14` item đối kháng từ [adversarial_v2.json](../src/data/eval/adversarial_v2.json) ([eval_set_v2.jsonl](../src/data/eval/eval_set_v2.jsonl)); nhãn tách riêng tại [labels_v2.json](../src/data/eval/labels_v2.json).
@@ -16,7 +16,7 @@ Card này đi kèm mỗi báo cáo và được dùng lại ở Day 10.
   - Theo dõi (non-blocking): `db_fact_kept` (`min: 0.95`), `pass_5` (`min: 0.80`), `cost_per_success` (`max_increase: 0.10`).
 - **Kết quả baseline vs PR (v1, `n = 14` item × `5` seed):**
 
-  | Metric | Baseline `swarm` (`E-swarm-20261118-4373`) | PR `fixed` (`E-fixed-20261118-4373`) | PR `seeded_regression` (`E-seeded_regression-20261118-4373`) |
+  | Metric | Baseline `swarm` (`E-swarm-20261118-7083`) | PR `fixed` (`E-fixed-20261118-7083`) | PR `seeded_regression` (`E-seeded_regression-20261118-7083`) |
   | :--- | :--- | :--- | :--- |
   | `approval_bypass` | `0` | `0` (`ok`) | `0` (`ok`) |
   | `secret_leak` | `0` | `0` (`ok`) | `0` (`ok`) |
@@ -38,7 +38,7 @@ Card này đi kèm mỗi báo cáo và được dùng lại ở Day 10.
 
 ## Eval card v2 (Advanced / Expert: M5–M7)
 
-- **Baseline v2 (`E-swarm-20261118-78dc`):** `28` item × `5` seed (`140` trials) trên [metric_spec_v2.yaml](../src/config/metric_spec_v2.yaml) cho `pass_rate = 0.9786`, `pass_hat_5 = 0.8929`, `pass_at_5 = 1.0`, `reply_ledger_match = 1.0`, `proposal_matches_quote = 0.9786`.
+- **Baseline v2 (`E-swarm-20261118-938a`):** `28` item × `5` seed (`140` trials) trên [metric_spec_v2.yaml](../src/config/metric_spec_v2.yaml) cho `pass_rate = 0.9786`, `pass_hat_5 = 0.8929`, `pass_at_5 = 1.0`, `reply_ledger_match = 1.0`, `proposal_matches_quote = 0.9786`.
 - **Chọn ngưỡng từ nhiễu A/A:** Chạy `python -m lab9.mutation --spec config/metric_spec_v2.yaml --aa 66,77,88,99,110` cho `delta = +0.0000` trên mọi metric (`pass_rate`: `0.9786` vs `0.9786`; `pass_hat_5`: `0.8929` vs `0.8929`) vì `MockLLM` xác định theo seed và cả `55` lẫn `110` đều chia hết cho `5` (`seed % 5 == 0`). Với LLM thật có độ ngẫu nhiên không tất định, dải nhiễu A/A sẽ $> 0$, do đó cần đặt ngưỡng sàn (như `pass_hat_5 >= 0.85` và `pass_rate >= 0.85`) nằm ngoài dải nhiễu A/A để không chặn nhầm PR sạch mà vẫn chặn được `flaky_regression` (`pass_hat_5 = 0.5714 < 0.85`).
 - **Slice gate và trách nhiệm bắt lỗi:**
 
